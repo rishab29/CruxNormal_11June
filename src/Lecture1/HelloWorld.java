@@ -8,7 +8,6 @@ public class HelloWorld {
 		System.out.println("Hello World");
 		System.out.print("Hello World\t");
 		System.out.print("Hello World");
-
 	}
 
 }

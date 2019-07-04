@@ -10,7 +10,7 @@ public class Questions {
 			stack.push(i * 10);
 		}
 		stack.display();
-		reverseStack(stack, helper);
+		reverseStack(stack, helper, 0);
 		stack.display();
 
 		DynamicQueue queue = new DynamicQueue();
@@ -24,12 +24,27 @@ public class Questions {
 
 	}
 
-	public static void reverseStack(DynamicStack stack, DynamicStack helper) throws Exception {
-		
+	public static void reverseStack(DynamicStack stack, DynamicStack helper, int index) throws Exception {
+		if (stack.isEmpty()) {
+			return;
+		}
+		int element = stack.pop();
+		reverseStack(stack, helper, index + 1);
+		helper.push(element);
+		if (index == 0) {
+			while (!helper.isEmpty()) {
+				stack.push(helper.pop());
+			}
+		}
 	}
 
 	public static void reverseQueue(DynamicQueue queue) throws Exception {
-     
+		if(queue.isEmpty()) {
+			return;
+		}
+		int element =queue.dequeue();
+		reverseQueue(queue);
+		queue.enqueue(element);
 	}
 
 }

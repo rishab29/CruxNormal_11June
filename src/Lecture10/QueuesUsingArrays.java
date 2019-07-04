@@ -1,9 +1,9 @@
 package Lecture10;
 
 public class QueuesUsingArrays {
-	private int[] data;
-	private int size;
-	private int front;
+	public int[] data;
+	public int size;
+	public int front;
 
 	public static final int DEFAULT_CAPACITY = 10;
 

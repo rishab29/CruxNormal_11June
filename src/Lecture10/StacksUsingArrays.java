@@ -2,8 +2,8 @@ package Lecture10;
 
 public class StacksUsingArrays {
 
-	private int[] data;
-	private int tos;
+	public int[] data;
+	public int tos;
 
 	public static final int DEFAULT_CAPACITY = 10;
 

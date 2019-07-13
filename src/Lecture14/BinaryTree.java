@@ -233,5 +233,13 @@ public class BinaryTree {
 			}
 		}
 	}
+	
+	public boolean isBST() {
+		
+	}
+	
+	public int diameter() {
+		
+	}
 
 }

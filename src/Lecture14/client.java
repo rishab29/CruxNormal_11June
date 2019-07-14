@@ -14,8 +14,11 @@ public class client {
 		System.out.println(tree.height());
 		
 		System.out.println(tree.find(100));
-		tree.mirror();
+		//tree.mirror();
 		tree.display();
+		
+		System.out.println(tree.isBST());
+		tree.rootToLeaf();
 
 	}
 

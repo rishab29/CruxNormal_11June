@@ -18,6 +18,11 @@ public class client {
 		tree.display();
 		System.out.println(tree.max());
 		System.out.println(tree.min());
+		
+		
+//		tree.remove(30);
+//		tree.display();
+		tree.rootToLeaf();
 	}
 
 }

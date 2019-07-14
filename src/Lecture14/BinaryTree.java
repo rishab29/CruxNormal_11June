@@ -233,13 +233,60 @@ public class BinaryTree {
 			}
 		}
 	}
-	
+
 	public boolean isBST() {
-		
+		return this.isBst(this.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
-	
+
+	private boolean isBst(Node node, int min, int max) {
+		if (node == null) {
+			return true;
+		}
+
+		if (node.data < min || node.data > max) {
+			return false;
+		} else if (!this.isBst(node.left, min, node.data)) {
+			return false;
+		} else if (!this.isBst(node.right, node.data, max)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public int diameter() {
-		
+		return diameter(this.root);
+	}
+
+	private int diameter(Node node) {
+		if (node == null)
+			return 0;
+
+		int mydia = height(node.left) + height(node.right) + 2;
+		int leftdia = diameter(node.left);
+		int rightdia = diameter(node.right);
+
+		return Math.max(mydia, Math.max(leftdia, rightdia));
+
+	}
+
+	public void rootToLeaf() {
+		this.rootToLeaf(this.root, "");
+	}
+
+	private void rootToLeaf(Node node, String osf) {
+		if (node == null) {
+			return;
+		}
+		osf = osf + node.data + ", ";
+		if (node.left == null && node.right == null) {
+			System.out.println(osf + "END");
+			return;
+		}
+
+		rootToLeaf(node.left, osf);
+		rootToLeaf(node.right, osf);
+
 	}
 
 }

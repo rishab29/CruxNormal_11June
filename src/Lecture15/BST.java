@@ -97,9 +97,58 @@ public class BST {
 		}
 		return min;
 	}
-	
+
 	public void remove(int data) {
-		
+		this.root = this.remove(this.root, data);
 	}
+
+	private Node remove(Node node, int data) {
+		if (node == null) {
+			return null;
+		}
+		if (data < node.data) {
+			node.left = this.remove(node.left, data);
+			return node;
+		} else if (data > node.data) {
+			node.right = this.remove(node.right, data);
+			return node;
+		} else {
+			if (node.left == null && node.right == null) {
+				this.size--;
+				return null;
+			} else if (node.left == null) {
+				this.size--;
+				return node.right;
+			} else if (node.right == null) {
+				this.size--;
+				return node.left;
+			} else {
+				int lmax = this.max(node.left);
+				node.data = lmax;
+				node.left = this.remove(node.left, lmax);
+				return node;
+			}
+		}
+	}
+	
+	public void rootToLeaf() {
+		this.rootToLeaf(this.root, "");
+	}
+
+	private void rootToLeaf(Node node, String osf) {
+		if (node == null) {
+			return;
+		}
+		osf = osf + node.data + ", ";
+		if (node.left == null && node.right == null) {
+			System.out.println(osf + "END");
+			return;
+		}
+
+		rootToLeaf(node.left, osf);
+		rootToLeaf(node.right, osf);
+
+	}
+
 
 }

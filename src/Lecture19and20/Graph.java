@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class Graph {
@@ -257,6 +258,102 @@ public class Graph {
 			}
 		}
 		return ans;
+	}
+	
+	public void Dijkstras(String source1) {
+		int[] dis = new int[this.vtces.size()];
+		for (int i = 0; i < dis.length; i++) {
+			dis[i] = Integer.MAX_VALUE;
+		}
+		Vertex v = this.vtces.get(source1);
+		dis[source1.charAt(0) - 65] = 0;
+		Queue<String> queue = new LinkedList<>();
+		queue.add(source1);
+		while (!queue.isEmpty()) {
+			String str = queue.remove();
+			Vertex vtx = this.vtces.get(str);
+			Set<Vertex> nbrs = vtx.nbrs.keySet();
+			for (Vertex nbr : nbrs) {
+				int oldcost = dis[nbr.name.charAt(0) - 65];
+				int newcost = dis[vtx.name.charAt(0) - 65] + vtx.nbrs.get(nbr);
+				if (newcost < oldcost) {
+					dis[nbr.name.charAt(0) - 65] = newcost;
+					queue.add(nbr.name);
+				}
+			}
+		}
+		for (int i = 0; i < dis.length; i++) {
+			System.out.print(dis[i] + " ");
+		}
+		System.out.println();
+	}
+
+	// ================================================
+
+	private class PrimsPair implements Comparable<PrimsPair> {
+		String vname;
+		String acqvname;
+		int cost;
+
+		public PrimsPair(String name) {
+			this.vname = name;
+			this.acqvname = null;
+			this.cost = Integer.MAX_VALUE;
+		}
+
+		@Override
+		public int compareTo(PrimsPair o) {
+			return this.cost - o.cost;
+		}
+	}
+
+	public Graph primsAlgo() {
+		Graph mst = new Graph();
+		HashMap<String, PrimsPair> map = new HashMap<>();
+		Heap<PrimsPair> heap = new Heap<>(true); // Min heap
+
+		// PART 1
+		// Make pairs for all vertices & add in heap, hashmap
+		for (String key : this.vtces.keySet()) {
+			PrimsPair np = new PrimsPair(key);
+			heap.add(np);
+			map.put(key, np);
+		}
+
+		// PART 2
+		// 1. Remove pair from heap
+		// 2. Add in MST
+		// 3. Update its nbrs
+		while (!heap.isEmpty()) {
+
+			// Step 1
+			PrimsPair rp = heap.remove();
+			map.remove(rp.vname);
+
+			// Step 2
+			if (rp.acqvname == null) {
+				mst.addVertex(rp.vname);
+			} else {
+				mst.addVertex(rp.vname);
+				mst.addEdge(rp.vname, rp.acqvname, rp.cost);
+			}
+
+			// Step 3
+			for (Vertex nbr : this.vtces.get(rp.vname).nbrs.keySet()) {
+				if (map.containsKey(nbr.name)) {
+					PrimsPair gp = map.get(nbr.name);
+					int oldcost = gp.cost;
+					int newcost = this.vtces.get(rp.vname).nbrs.get(nbr);
+					if (newcost < oldcost) {
+						gp.acqvname = rp.vname;
+						gp.cost = newcost;
+						heap.updatePriority(gp);
+					}
+				}
+			}
+		}
+
+		return mst;
 	}
 	
 	
